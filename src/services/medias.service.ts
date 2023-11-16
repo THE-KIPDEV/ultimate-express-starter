@@ -53,7 +53,7 @@ export class MediaService {
     // Stocker privé
     // Servir fichier privé
     const mediaName = uuid();
-    const path = `./${mediaData.security}/${mediaData.type}`;
+    const path = `./src/${mediaData.security}/${mediaData.type}`;
 
     if (user && user.role === 'user') {
       const findsMediaUser = await this.media.findMany({ where: { created_by: user.id } });
