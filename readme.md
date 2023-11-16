@@ -18,12 +18,12 @@ To install this application on your computer, follow these steps:
 
 3. Copy .env.example.local to .env.development.local and run migration
 
-   ```bash
+  ```bash
    npx prisma migrate dev
 
 4. Run the project
 
-   ```bash
+  ```bash
    npm run dev
    
 ## Features 
