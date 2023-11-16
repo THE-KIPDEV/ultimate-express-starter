@@ -1,44 +1,57 @@
 # Blog Node Starter Express
 
-Une API avec un CRUD pour un blog / category / système de login et media service.
+An API with a CRUD for a blog / category / login system and media service.
 
 ## Installation
 
-Pour installer cette application sur votre ordinateur, suivez ces étapes :
+To install this application on your computer, follow these steps:
 
-1. Clonez le projet depuis GitHub :
+1. Clone the project from GitHub:
 
    ```bash
    git clone https://github.com/YohannKIPFER/express-node-blog
 
-2. Installer les dépendances (node v14.18.3)
+2. Install dependencies (node v14.18.3)
 
-   ```bash
+   bash
    npm install
 
-3. Copiez le .env.example.local en .env.development.local et lancez la migration
+3. Copy .env.example.local to .env.development.local and run migration
 
    ```bash
    npx prisma migrate dev
 
-4. Run le projet
+4. Run the project
 
-   ```bash
+   bash
    npm run dev
- 
-## Les environnements et DB
-
-Le .env sert juste à Prisma
-Le .env.development.local est à utiliser en local
-Il faut créer un .env.production.local pour la production
    
-## Collection Bruno
+## Features 
 
-Vous trouverez une collection Bruno dans le dossier BrunoCollection que vous pouvez ouvrir directement avec le client API Bruno.
+1. CRUD system for a blog, categories, slug
+2. Register / Login / Forgot password / Reset password
+3. Public and private media library system
+4. Email system with Mailjet and mailService
+5. Admin & user role management
+ 
+## Environments and DB
 
-## Auteur
+.env is just for Prisma
+The .env.development.local is to be used locally
+You need to create a .env.production.local for production.
 
-Kipdev, créateur de contenus et développeur.
+MJ_APIKEY_PUBLIC = xxx
+MJ_APIKEY_PRIVATE = xxx
+
+To be replaced by API's https://www.mailjet.com/ keys for emails.
+   
+## Bruno collection
+
+You'll find a Bruno collection in the BrunoCollection folder, which you can open directly with the Bruno API client.
+
+## Author
+
+Kipdev, content creator and developer.
 
 ## Buy me a coffee 
 https://www.buymeacoffee.com/kipdev
