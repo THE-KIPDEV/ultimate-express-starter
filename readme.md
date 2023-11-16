@@ -1,29 +1,30 @@
-# Blog Node Starter Express
+# Ultimate express starter
 
-An API with a CRUD for a blog / category / login system and media service.
+An ultimate starter for REST API with Express, Typescript, Prisma & PM2.
 
 ## Installation
 
 To install this application on your computer, follow these steps:
 
-1. Clone the project from GitHub:
+
+1. Clone repo
 
    ```bash
    git clone https://github.com/YohannKIPFER/express-node-blog
 
 2. Install dependencies (node v14.18.3)
 
-  ```bash
+   ```bash
    npm install
 
 3. Copy .env.example.local to .env.development.local and run migration
 
-  ```bash
+   ```bash
    npx prisma migrate dev
 
-4. Run the project
+4. Run project
 
-  ```bash
+   ```bash
    npm run dev
    
 ## Features 
