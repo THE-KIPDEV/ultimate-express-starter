@@ -13,7 +13,7 @@ To install this application on your computer, follow these steps:
 
 2. Install dependencies (node v14.18.3)
 
-   bash
+  ```bash
    npm install
 
 3. Copy .env.example.local to .env.development.local and run migration
@@ -23,7 +23,7 @@ To install this application on your computer, follow these steps:
 
 4. Run the project
 
-   bash
+   ```bash
    npm run dev
    
 ## Features 
