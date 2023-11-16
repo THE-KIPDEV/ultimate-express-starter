@@ -1,0 +1,28 @@
+meta {
+  name: Create a article
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:3000/articles
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+  	"title": "Javascript 2",
+  	"excerpt": "Bonjour article de dev",
+  	"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus porta velit quis pharetra. Maecenas in nulla felis. Nunc vitae suscipit purus, quis dignissim erat. Nulla consectetur non lectus et porttitor. In volutpat, ante mattis iaculis tincidunt, metus est interdum nibh, vitae posuere lorem neque ut diam. Duis a ullamcorper lectus. Quisque nunc enim, facilisis nec odio vel, fringilla placerat metus. Suspendisse nisl augue, placerat eu velit non, gravida fringilla lacus.",
+  	"status": "published",
+  	"user_id": 1,
+  	"categories": [1,3],
+  	"medias": [3, 1]
+  }
+}

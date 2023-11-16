@@ -1,0 +1,30 @@
+meta {
+  name: Create user as super-admin
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/users
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: Kipdev123;
+}
+
+body:json {
+  {
+  	"email": "yohann4@kipdev.io",
+  	"first_name": "Yohann",
+  	"last_name": "KIPDEV",
+  	"role": "admin",
+  	"password": "test12344"
+  }
+}

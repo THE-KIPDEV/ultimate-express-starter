@@ -1,0 +1,26 @@
+meta {
+  name: Create user admin first
+  type: http
+  seq: 7
+}
+
+post {
+  url: http://localhost:3000/users/create-admin
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: Kipdev123;
+}
+
+body:json {
+  {
+  	"user_id": 1
+  }
+}

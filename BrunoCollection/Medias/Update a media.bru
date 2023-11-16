@@ -1,0 +1,22 @@
+meta {
+  name: Update a media
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:3000/media/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+  	"name": "Develop"
+  }
+}

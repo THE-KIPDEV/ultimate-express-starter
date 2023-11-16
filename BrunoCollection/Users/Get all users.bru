@@ -1,0 +1,20 @@
+meta {
+  name: Get all users
+  type: http
+  seq: 11
+}
+
+get {
+  url: http://localhost:3000/users
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: Kipdev123;
+}

@@ -1,0 +1,16 @@
+meta {
+  name: Delete a article
+  type: http
+  seq: 12
+}
+
+delete {
+  url: http://localhost:3000/articles/13
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}

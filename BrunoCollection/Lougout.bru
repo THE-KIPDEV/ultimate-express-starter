@@ -1,0 +1,20 @@
+meta {
+  name: Lougout
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/logout
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjk5MzY1NTkwLCJleHAiOjE2OTkzNjkxOTB9.PDbkx1zSS1AcmK2q4YPEjCEjiR0VodMZwhFEqLgGquE
+}

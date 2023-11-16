@@ -1,0 +1,30 @@
+meta {
+  name: Update user as super-admin
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:3000/users/3
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: Kipdev123;
+}
+
+body:json {
+  {
+  	"email": "yohann5@kipdev.io",
+  	"first_name": "Yohann",
+  	"last_name": "KIPDEV",
+  	"role": "user",
+  	"password": "test12344"
+  }
+}

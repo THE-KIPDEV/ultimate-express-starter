@@ -1,0 +1,16 @@
+meta {
+  name: Delete media
+  type: http
+  seq: 10
+}
+
+delete {
+  url: http://localhost:3000/media/3
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}

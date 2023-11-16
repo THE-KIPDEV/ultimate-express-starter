@@ -1,0 +1,23 @@
+meta {
+  name: Create a category
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/categories
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+  	"title": "ux design",
+  	"color": "#ffffff"
+  }
+}

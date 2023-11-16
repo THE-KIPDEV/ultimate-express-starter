@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  email      String    @unique
+  password   String
+  first_name String
+  last_name  String
+  created_at DateTime  @default(now())
+  Article    Article[]
+  role       String   @default("user")
+  reset_password_token String? @unique 
+  reset_password_expires DateTime?
+}
+
+
+
+model Article {
+  id                  Int                   @id @default(autoincrement())
+  title               String
+  content             String
+  user                User                  @relation(fields: [user_id], references: [id])
+  user_id             Int
+  created_at          DateTime              @default(now())
+  status              String
+  excerpt             String
+  slug                String                @unique
+  CategoryArticleLink CategoryArticleLink[]
+  MediaArticleLink    MediaArticleLink[]
+}
+
+model MediaArticleLink {
+  id         Int     @id @default(autoincrement())
+  article_id Int
+  media_id   Int
+  article    Article @relation(fields: [article_id], references: [id])
+  media      Medias  @relation(fields: [media_id], references: [id])
+}
+
+model Category {
+  id                  Int                   @id @default(autoincrement())
+  title               String
+  color               String
+  CategoryArticleLink CategoryArticleLink[]
+}
+
+model CategoryArticleLink {
+  id          Int      @id @default(autoincrement())
+  article_id  Int
+  category_id Int
+  article     Article  @relation(fields: [article_id], references: [id])
+  category    Category @relation(fields: [category_id], references: [id])
+}
+
+model Medias {
+  id         Int      @id @default(autoincrement())
+  name       String
+  type       String
+  url        String
+  sub_type   String
+  file_type  String
+  formats    String   
+  security   String
+  weight     Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  created_by Int
+  updated_by Int
+  MediaArticleLink MediaArticleLink[]
+}

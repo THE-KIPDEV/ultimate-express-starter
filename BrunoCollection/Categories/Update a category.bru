@@ -1,0 +1,23 @@
+meta {
+  name: Update a category
+  type: http
+  seq: 9
+}
+
+put {
+  url: http://localhost:3000/categories/1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+  	"title": "Develop",
+  	"color": "#349334"
+  }
+}

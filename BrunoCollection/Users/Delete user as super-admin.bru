@@ -1,0 +1,20 @@
+meta {
+  name: Delete user as super-admin
+  type: http
+  seq: 10
+}
+
+delete {
+  url: http://localhost:3000/users/4
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: Kipdev123;
+}

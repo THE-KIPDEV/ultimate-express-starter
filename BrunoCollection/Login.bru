@@ -1,0 +1,23 @@
+meta {
+  name: Login
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+  	"email": "yohann@kipdev.io",
+  	"password": "TestForDev"
+  }
+}
