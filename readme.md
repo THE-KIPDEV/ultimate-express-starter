@@ -1,6 +1,7 @@
 # Ultimate express starter
 
 An ultimate starter for REST API with Express, Typescript, Prisma & PM2.
+Based on : https://github.com/ljlm0402/typescript-express-starter
 
 ## Installation
 
@@ -34,6 +35,7 @@ To install this application on your computer, follow these steps:
 3. Public and private media library system
 4. Email system with Mailjet and mailService
 5. Admin & user role management
+6. 2FA system by Authentificator (OTP) or SMS
  
 ## Environments and DB
 
@@ -45,6 +47,11 @@ MJ_APIKEY_PUBLIC = xxx
 MJ_APIKEY_PRIVATE = xxx
 
 To be replaced by API's https://www.mailjet.com/ keys for emails.
+
+TWILIO_ACCOUNT_SID = xxx
+TWILIO_AUTH_TOKEN = xxx
+
+To be replaced by API's https://www.twilio.com/en-us keys for SMS 2FA.
    
 ## Bruno collection
 
