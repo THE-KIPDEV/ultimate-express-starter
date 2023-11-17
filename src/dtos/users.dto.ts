@@ -1,4 +1,4 @@
-import { IsEmail, IsString, IsNotEmpty, MinLength, MaxLength, IsOptional, IsUUID } from 'class-validator';
+import { IsEmail, IsString, IsNotEmpty, MinLength, MaxLength, IsOptional, IsUUID, IsArray } from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -21,6 +21,23 @@ export class CreateUserDto {
   @MinLength(2)
   @MaxLength(32)
   public last_name: string;
+}
+
+export class LoginDoubleFaDto {
+  @IsString()
+  public code: string;
+
+  @IsEmail()
+  public email: string;
+
+  @IsString()
+  public method: string;
+}
+
+export class ValidateAccountDto {
+  @IsString()
+  @IsUUID()
+  public token: string;
 }
 
 export class ForgetPasswordDto {

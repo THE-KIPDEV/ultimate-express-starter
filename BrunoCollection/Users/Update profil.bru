@@ -1,0 +1,29 @@
+meta {
+  name: Update profil
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:3000/users/update-profil
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDIzODE2MSwiZXhwIjoxNzAwMjQxNzYxfQ.5h-oiIPgesVQwskT074hzuDQFF1XMsSXBd-NlhtznLE
+}
+
+body:json {
+  {
+    "double_fa_method": "qrcode",
+    "double_fa_activate": true,
+    "phone_number": "+33633631647",
+    "first_name": "John"
+  }
+}

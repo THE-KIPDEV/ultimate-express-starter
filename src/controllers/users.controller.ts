@@ -49,6 +49,17 @@ export class UserController {
     }
   };
 
+  public firstDoubleFaValidate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData: User = req.body;
+      const createUserData: User = await this.user.firstDoubleFaValidate(userData, req.user);
+
+      res.status(201).json({ data: createUserData, message: 'Activated' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userId = Number(req.params.id);
@@ -67,6 +78,17 @@ export class UserController {
       const deleteUserData: User = await this.user.deleteUser(userId);
 
       res.status(200).json({ data: deleteUserData, message: 'deleted' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public updateProfil = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData: User = req.body;
+      const updateUserData: User = await this.user.updateProfil(userData, req.user);
+
+      res.status(200).json({ data: updateUserData, message: 'updated' });
     } catch (error) {
       next(error);
     }

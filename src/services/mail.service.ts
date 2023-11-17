@@ -42,6 +42,7 @@ export class MailService {
     request
       .then(result => {})
       .catch(err => {
+        console.log(err);
         throw new HttpException(500, 'Error while sending email');
       });
   }

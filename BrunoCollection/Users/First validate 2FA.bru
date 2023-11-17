@@ -1,0 +1,28 @@
+meta {
+  name: First validate 2FA
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3000/users/first-double-fa-validate
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.4.2
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDIzNzcxMCwiZXhwIjoxNzAwMjQxMzEwfQ.fT2N2zK3IJ5DSWXbQFKymLMaKmf9LDgCzyLWwhUiPS8
+}
+
+body:json {
+  {
+    "code": "969451",
+    "method": "sms",
+    "email": "yohann-3396@hotmail.fr"
+  }
+}

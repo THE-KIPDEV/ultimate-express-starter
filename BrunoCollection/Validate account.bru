@@ -1,11 +1,11 @@
 meta {
-  name: Login
+  name: Validate account
   type: http
-  seq: 4
+  seq: 7
 }
 
 post {
-  url: http://localhost:3000/login
+  url: http://localhost:3000/resend-email-validation
   body: json
   auth: none
 }
@@ -17,7 +17,6 @@ headers {
 
 body:json {
   {
-    "email": "yohann-3396@hotmail.fr",
-    "password": "TestForDev"
+    "email": "yohann-3396@hotmail.fr"
   }
 }
