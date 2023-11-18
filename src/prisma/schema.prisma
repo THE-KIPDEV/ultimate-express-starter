@@ -31,6 +31,8 @@ model User {
   double_fa_sms_date DateTime?
   phone_number String?
   double_fa_first_verify Boolean @default(false)
+  magic_link_token String? @unique
+  magic_link_token_expires DateTime?
 }
 
 

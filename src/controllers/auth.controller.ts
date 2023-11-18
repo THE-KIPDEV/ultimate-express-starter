@@ -18,12 +18,34 @@ export class AuthController {
     }
   };
 
+  public logInMagicLink = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData: User = req.body;
+      const loginMagicLinkData: User = await this.auth.logInMagicLink(userData);
+
+      res.status(201).json({ data: loginMagicLinkData, message: 'logInMagicLink' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public forgetPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: User = req.body;
       const forgetPasswordData: User = await this.auth.forgetPassword(userData);
 
       res.status(201).json({ data: forgetPasswordData, message: 'forgetPassword' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  public magicLink = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const userData: User = req.body;
+      const magicLinkData: User = await this.auth.magicLink(userData);
+
+      res.status(201).json({ data: magicLinkData, message: 'magicLink' });
     } catch (error) {
       next(error);
     }

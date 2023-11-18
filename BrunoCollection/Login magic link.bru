@@ -1,0 +1,22 @@
+meta {
+  name: Login magic link
+  type: http
+  seq: 11
+}
+
+post {
+  url: http://localhost:3000/magic-link
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+    "email": "yohann-3396@hotmail.fr"
+  }
+}

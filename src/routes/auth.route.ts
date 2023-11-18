@@ -15,8 +15,10 @@ export class AuthRoute implements Routes {
   }
 
   private initializeRoutes() {
+    this.router.post(`${this.path}magic-link`, ValidationMiddleware(ForgetPasswordDto), this.auth.magicLink);
     this.router.post(`${this.path}signup`, ValidationMiddleware(CreateUserDto), this.auth.signUp);
     this.router.post(`${this.path}login`, ValidationMiddleware(UpdateUserDto), this.auth.logIn);
+    this.router.post(`${this.path}login-magic-link`, ValidationMiddleware(ValidateAccountDto), this.auth.logInMagicLink);
     this.router.post(`${this.path}logout`, AuthMiddleware, this.auth.logOut);
     this.router.post(`${this.path}login-double-fa`, ValidationMiddleware(LoginDoubleFaDto), this.auth.loginDoubleFa);
     this.router.post(`${this.path}forget-password`, ValidationMiddleware(ForgetPasswordDto), this.auth.forgetPassword);

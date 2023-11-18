@@ -17,4 +17,6 @@ export interface User {
   double_fa_sms_service: string;
   phone_number: string;
   double_fa_first_verify: boolean;
+  magic_link_token: string;
+  magic_link_expires: Date;
 }

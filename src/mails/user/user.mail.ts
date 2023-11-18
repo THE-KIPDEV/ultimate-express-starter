@@ -3,6 +3,26 @@ import dayjs from 'dayjs';
 const mailService = new MailService();
 require('dayjs/locale/fr');
 
+export async function sendMailMagicLinkAuth(email, firstname, lastname, link, magicLinkTokenExpires) {
+  const subject = `${firstname}, connectez-vous à votre compte`;
+
+  const buttonText = 'Connexion';
+
+  const date = dayjs(magicLinkTokenExpires).locale('fr').format('dddd DD MMMM YYYY à HH:mm');
+
+  const content = `
+    <p>Bonjour ${firstname} ${lastname},</p>
+    <p>Vous avez demandé un lien magique pour vous connecter.</p><br/>
+     Le lien est valide jusqu'à ${date}.</p>
+  `;
+
+  const disclaimer = `
+ <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer cet e-mail.</p>
+ <p>À bientôt sur KIPDEV !</p>`;
+
+  mailService.sendEmail(email, subject, content, firstname, lastname, link, disclaimer, buttonText);
+}
+
 export async function sendMailCreateAccount(email, firstname, lastname, link, validateAccountTokenExpires) {
   const subject = `${firstname}, bienvenue sur Kipdev`;
 

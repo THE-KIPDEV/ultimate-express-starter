@@ -8,7 +8,7 @@ import { HttpException } from '@exceptions/httpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { User } from '@interfaces/users.interface';
 import { v4 as uuid } from 'uuid';
-import { sendMailForgetPassword, sendMailPasswordReset, sendMailCreateAccount } from '@mails/user/user.mail';
+import { sendMailForgetPassword, sendMailPasswordReset, sendMailCreateAccount, sendMailMagicLinkAuth } from '@mails/user/user.mail';
 const speakeasy = require('speakeasy');
 
 @Service()
@@ -119,7 +119,7 @@ export class AuthService {
     return updatedUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User }> {
+  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: User; tokenData: string }> {
     const findUser: User = await this.users.findUnique({ where: { email: userData.email } });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
 
@@ -163,7 +163,7 @@ export class AuthService {
     return { cookie, findUser, tokenData };
   }
 
-  public async loginDoubleFa(userData: LoginDoubleFaDto): Promise<{ cookie: string; findUser: User }> {
+  public async loginDoubleFa(userData: LoginDoubleFaDto): Promise<{ cookie: string; findUser: User; tokenData: string }> {
     const findUser: User = await this.users.findUnique({ where: { email: userData.email } });
     if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
 
@@ -206,6 +206,48 @@ export class AuthService {
         throw new HttpException(403, `The code is not correct`);
       }
     }
+  }
+
+  public async logInMagicLink(userData: ValidateAccountDto): Promise<{ cookie: string; findUser: User; tokenData: string }> {
+    const findUser: User = await this.users.findUnique({ where: { magic_link_token: userData.token } });
+    if (!findUser) throw new HttpException(400, `The link is expired`);
+
+    const now = new Date();
+    if (now > findUser.magic_link_expires) {
+      throw new HttpException(400, `The link is expired`);
+    }
+
+    await this.users.update({
+      where: { magic_link_token: userData.token },
+      data: { magic_link_token: '' },
+    });
+
+    const tokenData = this.createToken(findUser);
+    const cookie = this.createCookie(tokenData);
+
+    return { cookie, findUser, tokenData };
+  }
+
+  public async magicLink(userData: ForgetPasswordDto): Promise<string> {
+    const findUser: User = await this.users.findUnique({ where: { email: userData.email } });
+    if (!findUser) throw new HttpException(409, `This email ${userData.email} was not found`);
+
+    if (!findUser.validate) throw new HttpException(403, `This account is not validated`);
+
+    const magicLinkToken = uuid();
+    const magicLinkTokenExpires = new Date(Date.now() + 3600000);
+
+    await this.users.update({
+      where: { email: userData.email },
+      data: { magic_link_token: magicLinkToken, magic_link_token_expires: magicLinkTokenExpires },
+    });
+
+    // Send email
+    const link = `${process.env.FRONT_END}/login-magic-link/${magicLinkToken}`;
+
+    await sendMailMagicLinkAuth(userData.email, findUser.first_name, findUser.last_name, link, magicLinkTokenExpires);
+
+    return 'Magic link sent';
   }
 
   public async logout(userData: User): Promise<User> {

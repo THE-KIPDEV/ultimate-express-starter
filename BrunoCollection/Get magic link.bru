@@ -1,0 +1,22 @@
+meta {
+  name: Get magic link
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://localhost:3000/forget-password
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  User-Agent: insomnia/8.3.0
+}
+
+body:json {
+  {
+    "email": "yohann-3396@hotmail.fr"
+  }
+}
