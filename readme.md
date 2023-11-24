@@ -36,6 +36,7 @@ To install this application on your computer, follow these steps:
 4. Email system with Mailjet and mailService
 5. Admin & user role management
 6. 2FA system by Authentificator (OTP) or SMS
+7. Stripe payment intent and subscription with portal 
  
 ## Environments and DB
 
@@ -53,6 +54,12 @@ TWILIO_AUTH_TOKEN = xxx
 
 To be replaced by API's https://www.twilio.com/en-us keys for SMS 2FA.
    
+STRIPE_SECRET_KEY = xxx // Secret Key for Stripe
+STRIPE_MONTHLY_PRICE = xxx // Price id Stripe for monthly sub
+STRIPE_YEARLY_PRICE = xxx // Price id Stripe for yearly sub
+STRIPE_WEBHOOK_SECRET = xxx // Webhook signature secret
+
+
 ## Bruno collection
 
 You'll find a Bruno collection in the BrunoCollection folder, which you can open directly with the Bruno API client.

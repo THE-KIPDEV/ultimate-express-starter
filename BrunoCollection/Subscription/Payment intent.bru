@@ -1,0 +1,15 @@
+meta {
+  name: Payment intent
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/stripe/pay
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDgzMjcxMSwiZXhwIjoxNzAwODM2MzExfQ.tdkqrO7fAuLcrXQBzYOK6diq5i2VpZPCu-gZhf7wRxo
+}

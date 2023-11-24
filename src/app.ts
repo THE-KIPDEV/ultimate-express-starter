@@ -12,16 +12,43 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { Routes } from '@interfaces/routes.interface';
 import { ErrorMiddleware } from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import { StripeController } from '@controllers/stripe.controller';
 
 export class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+  public stripe = new StripeController();
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
+
+    this.app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
+      const sig = request.headers['stripe-signature'];
+
+      let event;
+
+      try {
+        event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      } catch (err) {
+        response.status(400).send(`Webhook Error: ${err.message}`);
+        return;
+      }
+
+      // Handle the event
+      switch (event.type) {
+        case 'checkout.session.completed':
+          this.stripe.receivePayment(event);
+          break;
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+
+      response.send();
+    });
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);

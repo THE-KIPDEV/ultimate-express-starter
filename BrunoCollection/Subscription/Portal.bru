@@ -1,0 +1,15 @@
+meta {
+  name: Portal
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://localhost:3000/stripe/portal
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDgzMTU3MSwiZXhwIjoxNzAwODM1MTcxfQ.ix4fNNnM2cB6C1nUBpV2LWb6M87i2ajfnyHkQjkgr1s
+}

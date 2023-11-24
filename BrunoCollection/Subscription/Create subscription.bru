@@ -1,0 +1,21 @@
+meta {
+  name: Create subscription
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/stripe/subscribe
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDgzMjcxMSwiZXhwIjoxNzAwODM2MzExfQ.tdkqrO7fAuLcrXQBzYOK6diq5i2VpZPCu-gZhf7wRxo
+}
+
+body:json {
+  {
+    "periodicity": "yearly"
+  }
+}
