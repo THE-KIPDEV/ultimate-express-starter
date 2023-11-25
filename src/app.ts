@@ -20,11 +20,19 @@ export class App {
   public env: string;
   public port: string | number;
   public stripe = new StripeController();
+  public http: any;
+  public io: any;
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
+    this.http = require('http').createServer(this.app);
+    this.io = require('socket.io')(this.http, {
+      cors: {
+        origin: '*',
+      },
+    });
 
     this.app.post('/webhook', express.raw({ type: 'application/json' }), (request, response) => {
       const sig = request.headers['stripe-signature'];
@@ -54,15 +62,29 @@ export class App {
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
+    this.initializeSocket();
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    this.http.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
       logger.info(`=================================`);
     });
+  }
+
+  public initializeSocket() {
+    this.io.on('connection', socket => {
+      console.log('a user connected');
+      socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
+    });
+  }
+
+  public getSocketInstance() {
+    return this.io;
   }
 
   public getServer() {

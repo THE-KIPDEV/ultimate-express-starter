@@ -36,6 +36,9 @@ model User {
   Subscriptions            Subscriptions[]
   customer_id_stripe       String?
   PaymentsIntent           PaymentsIntent[]
+  ConversationUser         ConversationUser[]
+  Conversation             Conversation[]
+  Message                  Message[]
 }
 
 model Article {
@@ -113,4 +116,37 @@ model PaymentsIntent {
   customer_id    String?
   payment_id     String?
   product        String?
+}
+
+model Conversation {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user_id    Int
+  user       User     @relation(fields: [user_id], references: [id])
+  messages   Message[]
+  ConversationUser ConversationUser[]
+}
+
+model ConversationUser {
+  id             Int           @id @default(autoincrement())
+  created_at     DateTime      @default(now())
+  updated_at     DateTime      @updatedAt
+  conversation   Conversation  @relation(fields: [conversation_id], references: [id])
+  conversation_id Int
+  user           User          @relation(fields: [user_id], references: [id])
+  user_id        Int
+}
+
+model Message {
+  id              Int           @id @default(autoincrement())
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+  content         String
+  conversation_id Int
+  conversation    Conversation  @relation(fields: [conversation_id], references: [id])
+  user_id         Int
+  user            User          @relation(fields: [user_id], references: [id])
+  read            Boolean       @default(false)
+  read_at         DateTime?
 }
