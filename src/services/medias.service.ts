@@ -7,6 +7,7 @@ import { User } from '@interfaces/users.interface';
 import { v4 as uuid } from 'uuid';
 import sharp from 'sharp';
 import fs from 'fs';
+import * as AWS from 'aws-sdk';
 
 @Service()
 export class MediaService {
@@ -38,14 +39,78 @@ export class MediaService {
   public async findMediaById(mediaId: number, user: User): Promise<Media> {
     if (user) {
       const findMedia: Media = await this.media.findFirst({ where: { id: mediaId } });
-      if (!findMedia) throw new HttpException(409, "Media doesn't exist");
+      if (!findMedia) throw new HttpException(409, 'MEDIA_NOT_FOUND');
+
+      if (findMedia.type === 'video' || findMedia.type === 'audio') {
+        const s3 = new AWS.S3({
+          signature: 'v4',
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          region: 'eu-north-1',
+        });
+        const s3Params = {
+          Bucket: 'hello',
+          Key: findMedia.url,
+        };
+        const signedUrl = await s3.getSignedUrlPromise('getObject', s3Params);
+        findMedia.url = signedUrl;
+      }
 
       return await this.formatMedia(findMedia);
     } else {
       const findMedia: Media = await this.media.findFirst({ where: { id: mediaId, security: 'public' } });
-      if (!findMedia) throw new HttpException(409, "Media doesn't exist");
+      if (!findMedia) throw new HttpException(409, 'MEDIA_NOT_FOUND');
 
       return await this.formatMedia(findMedia);
+    }
+  }
+
+  public async createAudioVideoMedia(mediaData: CreateMediaDto, user: User, file): Promise<Media> {
+    const s3 = new AWS.S3({
+      signature: 'v4',
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      region: 'eu-north-1',
+    });
+
+    try {
+      const MEDIA_SIZE = 1000 * 1024 * 1024; // Taille maximale autorisée du fichier
+
+      if (file.size > MEDIA_SIZE) {
+        throw new HttpException(409, 'MEDIA_TOO_BIG');
+      }
+
+      const fileExtension = mediaData.sub_type;
+      const mediaName = uuid();
+      const url = `${mediaData.type}/${mediaName}.${fileExtension}`;
+
+      const s3Params = {
+        Bucket: 'hello',
+        Key: url,
+        Body: file.buffer,
+      };
+
+      await s3.upload(s3Params).promise();
+
+      const createMediaData: Media = await this.media.create({
+        data: {
+          name: mediaData.name,
+          type: mediaData.type,
+          url,
+          sub_type: mediaData.sub_type,
+          file_type: mediaData.file_type,
+          formats: '',
+          created_by: user.id,
+          updated_by: user.id,
+          weight: file.size, // Utilisez la taille du fichier plutôt que buffer.length
+          security: mediaData.security,
+        },
+      });
+
+      return createMediaData;
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(500, 'S3_FAILED');
     }
   }
 

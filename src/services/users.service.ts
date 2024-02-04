@@ -16,6 +16,14 @@ export class UserService {
     return allUser;
   }
 
+  public async setSocketId(userId: number, socketId: string): Promise<User> {
+    const findUser: User = await this.user.findUnique({ where: { id: userId } });
+    if (!findUser) throw new HttpException(409, "User doesn't exist");
+
+    const updateUserData = await this.user.update({ where: { id: userId }, data: { socket_id: socketId } });
+    return updateUserData;
+  }
+
   public async findUserById(userId: number): Promise<User> {
     const findUser: User = await this.user.findUnique({ where: { id: userId } });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
@@ -64,7 +72,6 @@ export class UserService {
         const authToken = process.env.TWILIO_AUTH_TOKEN;
         const client = require('twilio')(accountSid, authToken);
         await client.verify.v2.services.create({ friendlyName: 'Kipdev' }).then(async service => {
-          console.log(service.sid);
           await this.user.update({
             where: { email: user.email },
             data: {

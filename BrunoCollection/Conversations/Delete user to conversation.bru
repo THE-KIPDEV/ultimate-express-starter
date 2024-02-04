@@ -1,0 +1,21 @@
+meta {
+  name: Delete user to conversation
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/conversations/delete-user/2
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDkyMTk4NSwiZXhwIjoxNzAwOTI1NTg1fQ.nqgAgTDWd6rvhpgD9F6moHY6ZyIRzSKEPaLh7N2bMzA
+}
+
+body:json {
+  {
+    "user_id": 1
+  }
+}

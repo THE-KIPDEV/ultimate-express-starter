@@ -49,6 +49,10 @@ export class UserController {
     }
   };
 
+  public setSocketId = (userId: number, socketId: string): void => {
+    this.user.setSocketId(userId, socketId);
+  };
+
   public firstDoubleFaValidate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const userData: User = req.body;

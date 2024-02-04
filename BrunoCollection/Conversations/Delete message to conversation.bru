@@ -1,0 +1,21 @@
+meta {
+  name: Delete message to conversation
+  type: http
+  seq: 7
+}
+
+put {
+  url: http://localhost:3000/conversations/message/1
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDkyMTk4NSwiZXhwIjoxNzAwOTI1NTg1fQ.nqgAgTDWd6rvhpgD9F6moHY6ZyIRzSKEPaLh7N2bMzA
+}
+
+body:json {
+  {
+    "content": "Hello world 2"
+  }
+}

@@ -39,6 +39,7 @@ model User {
   ConversationUser         ConversationUser[]
   Conversation             Conversation[]
   Message                  Message[]
+  socket_id                String?
 }
 
 model Article {
@@ -147,6 +148,12 @@ model Message {
   conversation    Conversation  @relation(fields: [conversation_id], references: [id])
   user_id         Int
   user            User          @relation(fields: [user_id], references: [id])
-  read            Boolean       @default(false)
-  read_at         DateTime?
+}
+
+model Test {
+  id              Int           @id @default(autoincrement())
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+  content         String
+  user_id         Int
 }

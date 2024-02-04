@@ -18,9 +18,8 @@ export class ConversationRoute implements Routes {
   private initializeRoutes() {
     this.router.get(`${this.path}`, AuthMiddleware, this.conversation.getConversations);
     this.router.get(`${this.path}/:id`, AuthMiddleware, this.conversation.getConversationsById);
-    this.router.get(`${this.path}/not-read`, AuthMiddleware, this.conversation.getNbConversationsNotRead);
 
-    this.router.post(`${this.path}/message`, AuthMiddleware, ValidationMiddleware(CreateMessageDto), this.conversation.createMessage);
+    this.router.post(`${this.path}/message/:id`, AuthMiddleware, ValidationMiddleware(CreateMessageDto), this.conversation.createMessage);
     this.router.put(`${this.path}/message/:id`, AuthMiddleware, ValidationMiddleware(CreateMessageDto), this.conversation.updateMessage);
     this.router.delete(`${this.path}/message/:id`, AuthMiddleware, this.conversation.deleteMessage);
 
@@ -33,6 +32,11 @@ export class ConversationRoute implements Routes {
       ValidationMiddleware(CreateUserConversationDto),
       this.conversation.createUserConversation,
     );
-    this.router.delete(`${this.path}/remove-user/:id`, AuthMiddleware, this.conversation.deleteUserConversation);
+    this.router.post(
+      `${this.path}/delete-user/:id`,
+      AuthMiddleware,
+      ValidationMiddleware(CreateUserConversationDto),
+      this.conversation.deleteUserConversation,
+    );
   }
 }

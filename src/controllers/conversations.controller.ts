@@ -29,20 +29,9 @@ export class ConversationController {
     }
   };
 
-  public getNbConversationsNotRead = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const nbConversationsNotRead: number = await this.conversation.getNbConversationsNotRead(req.user);
-
-      res.status(200).json({ data: nbConversationsNotRead, message: 'nb conversations not read' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
   public createConversation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const conversationData: Conversation = req.body;
-      const createConversationData: Conversation = await this.conversation.createConversation(conversationData, req.user);
+      const createConversationData: Conversation = await this.conversation.createConversation(req.user);
 
       res.status(201).json({ data: createConversationData, message: 'created' });
     } catch (error) {
@@ -111,8 +100,8 @@ export class ConversationController {
   public deleteUserConversation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const conversationId = Number(req.params.id);
-      const userId = Number(req.body.userId);
-      const deleteUserConversationData: ConversationUser = await this.conversation.deleteUserConversation(conversationId, userId, req.user);
+      const userData: UserConversation = req.body;
+      const deleteUserConversationData: ConversationUser = await this.conversation.deleteUserConversation(conversationId, userData, req.user);
 
       res.status(200).json({ data: deleteUserConversationData, message: 'user removed from conversation' });
     } catch (error) {

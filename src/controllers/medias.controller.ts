@@ -16,6 +16,19 @@ export class MediaController {
     }
   };
 
+  public createAudioVideoMedia = async (req: Request, res: Responsive, next: NextFunction): Promise<void> => {
+    try {
+      const mediaData: Media = req.body;
+      const file = req.file;
+
+      const createMediaData: Media = await this.media.createAudioVideoMedia(mediaData, req.user, file);
+
+      res.status(201).json({ data: createMediaData, message: 'created' });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   public getMediaById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const mediaId = Number(req.params.id);

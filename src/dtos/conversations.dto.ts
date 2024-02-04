@@ -4,8 +4,4 @@ export class CreateUserConversationDto {
   @IsNumber()
   @IsNotEmpty()
   public user_id: number;
-
-  @IsNumber()
-  @IsNotEmpty()
-  public conversation_id: number;
 }

@@ -92,6 +92,37 @@ export class ArticleService {
     const allArticle: Article[] = await this.article.findMany({
       skip,
       take,
+      include: {
+        user: {
+          select: {
+            id: true,
+            first_name: true,
+            last_name: true,
+            email: true,
+          },
+        },
+        CategoryArticleLink: {
+          include: {
+            category: {
+              select: {
+                id: true,
+                title: true,
+                color: true,
+              },
+            },
+          },
+        },
+        MediaArticleLink: {
+          include: {
+            media: {
+              select: {
+                id: true,
+                url: true,
+              },
+            },
+          },
+        },
+      },
       where: {
         status: 'published',
         title: {
@@ -109,9 +140,7 @@ export class ArticleService {
       },
     });
 
-    const articles = await Promise.all(allArticle.map(async article => await this.formatArticle(article)));
-
-    return { nbArticleTotal, articles };
+    return { nbArticleTotal, articles: allArticle };
   }
 
   public async findArticleBySlug(slug: string, user: User): Promise<Article> {
@@ -136,7 +165,6 @@ export class ArticleService {
 
     const categories = articleData.categories;
     const medias = articleData.medias;
-    console.log(medias);
     for (const media of medias) {
       const mediaExist = await this.media.findMediaById(media);
       if (!mediaExist) throw new HttpException(404, "Media doesn't exist");
@@ -153,7 +181,6 @@ export class ArticleService {
     const createArticleData: Article = await this.article.create({ data: { ...articleData, slug } });
 
     categories.map(async category => {
-      console.log(category);
       await this.categoryArticleLink.create({ data: { category_id: category, article_id: createArticleData.id } });
     });
 

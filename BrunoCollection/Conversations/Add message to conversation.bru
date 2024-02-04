@@ -1,0 +1,21 @@
+meta {
+  name: Add message to conversation
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/conversations/message/3
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTcwMDkyNTY4NywiZXhwIjoxNzAwOTI5Mjg3fQ.4B-7SuVagz4s-Pn1ZpsXzYfMyICi6TzBBI6PlkAn5Z4
+}
+
+body:json {
+  {
+    "content": "Hello world"
+  }
+}

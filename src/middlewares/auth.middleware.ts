@@ -44,8 +44,6 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
           }
         }
 
-        console.log(findUser);
-
         req.user = findUser;
 
         next();
@@ -56,7 +54,6 @@ export const AuthMiddleware = async (req: RequestWithUser, res: Response, next: 
       next(new HttpException(404, 'Authentication token missing'));
     }
   } catch (error) {
-    console.log(error);
     next(new HttpException(401, 'Wrong authentication token'));
   }
 };

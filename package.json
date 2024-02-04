@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.1.0",
+    "aws-sdk": "^2.1550.0",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -37,6 +38,7 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "node-mailjet": "^6.0.4",
     "qrcode": "^1.5.3",
     "reflect-metadata": "^0.1.13",

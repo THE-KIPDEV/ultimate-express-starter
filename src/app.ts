@@ -15,11 +15,17 @@ import { logger, stream } from '@utils/logger';
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 import { StripeController } from '@controllers/stripe.controller';
 
+import { verify } from 'jsonwebtoken';
+import { SECRET_KEY } from '@config';
+import { DataStoredInToken } from '@interfaces/auth.interface';
+import { UserController } from '@/controllers/users.controller';
+
 export class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
   public stripe = new StripeController();
+  public user = new UserController();
   public http: any;
   public io: any;
 
@@ -63,6 +69,11 @@ export class App {
     this.initializeSwagger();
     this.initializeErrorHandling();
     this.initializeSocket();
+    this.initializeUploadsFolder();
+  }
+
+  private initializeUploadsFolder() {
+    this.app.use(express.static('src/public'));
   }
 
   public listen() {
@@ -76,19 +87,28 @@ export class App {
 
   public initializeSocket() {
     this.io.on('connection', socket => {
-      console.log('a user connected');
+      const token = socket.handshake.headers.access_token;
+      const { id } = verify(token, SECRET_KEY) as DataStoredInToken;
+
+      this.user.setSocketId(id, socket.id);
+      console.log('user connected', socket.id);
+
+      socket.on('message', (data: any) => {
+        console.log(data);
+      });
+
       socket.on('disconnect', () => {
         console.log('user disconnected');
       });
     });
   }
 
-  public getSocketInstance() {
-    return this.io;
-  }
-
   public getServer() {
     return this.app;
+  }
+
+  public getSocketInstance() {
+    return this.io;
   }
 
   private initializeMiddlewares() {
